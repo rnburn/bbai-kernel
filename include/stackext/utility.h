@@ -15,8 +15,7 @@ constexpr int64_t align_up(int64_t x) {
   static_assert(is_power_of_2(Alignment));
 
   // See https://stackoverflow.com/a/4840428/4447365
-  auto alignment = static_cast<int64_t>(Alignment);
-  return (x + (alignment - 1)) & -alignment;
+  return (x + (static_cast<int64_t>(Alignment) - 1)) & -static_cast<int64_t>(Alignment);
 }
 
 template <size_t Alignment>

@@ -6,7 +6,27 @@ load(
 stackext_catch_test(
     name = "linear_allocator_test",
     srcs = [
-        "linear_allocator_test.cpp",
+        "linear_allocator_test.cc",
+    ],
+    deps = [
+        "//:stackext_lib",
+    ],
+)
+
+stackext_catch_test(
+    name = "scoped_allocator_test",
+    srcs = [
+        "scoped_allocator_test.cc",
+    ],
+    deps = [
+        "//:stackext_lib",
+    ],
+)
+
+stackext_catch_test(
+    name = "utility_test",
+    srcs = [
+        "utility_test.cc",
     ],
     deps = [
         "//:stackext_lib",
