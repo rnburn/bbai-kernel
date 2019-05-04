@@ -24,12 +24,12 @@ constexpr size_t align_up(size_t x) {
 }
 
 template <class T, typename std::enable_if<
-                       std::is_trivially_destructible<T>::value, void*>::type>
+                       std::is_trivially_destructible<T>::value, void*>::type = nullptr>
 void destroy(T* /*iter*/, T* /*last*/) noexcept {
 }
 
 template <class T, typename std::enable_if<
-                       !std::is_trivially_destructible<T>::value, void*>::type>
+                       !std::is_trivially_destructible<T>::value, void*>::type = nullptr>
 void destroy(T* iter, T* last) noexcept {
   for(; iter!=last; ++iter) {
     iter->~T();
@@ -37,19 +37,18 @@ void destroy(T* iter, T* last) noexcept {
 }
 
 template <class T, typename std::enable_if<
-                       std::is_trivially_constructible<T>::value, void*>::type>
-void construct(T* /*iter*/, T* /*last*/) {
+                       std::is_trivially_constructible<T>::value, void*>::type = nullptr>
+void construct(T* /*iter*/, T* /*last*/) noexcept {
 }
 
 template <class T, class... Args,
           typename std::enable_if<
               !std::is_trivially_constructible<T, Args...>::value &&
                   std::is_nothrow_constructible<T, Args...>::value,
-              void*>::type>
+              void*>::type = nullptr>
 void construct(T* iter, T* last, Args&&... args) noexcept {
-  auto first = iter;
   for (; iter != last; ++iter) {
-    iter->A(std::forward<Args>(args)...);
+    new (iter) T(std::forward<Args>(args)...);
   }
 }
 
@@ -57,14 +56,14 @@ template <class T, class... Args,
           typename std::enable_if<
               !std::is_trivially_constructible<T, Args...>::value &&
                   !std::is_nothrow_constructible<T, Args...>::value,
-              void*>::type>
+              void*>::type = nullptr>
 void construct(T* iter, T* last, Args&&... args) {
   auto first = iter;
   for (; iter != last; ++iter) {
     try {
-      iter->A(std::forward<Args>(args)...);
+      new (iter) T(std::forward<Args>(args)...);
     } catch (...) {
-      destory(first, iter);
+      destroy(first, iter);
       throw;
     }
   }

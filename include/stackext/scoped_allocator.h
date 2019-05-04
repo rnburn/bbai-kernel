@@ -76,11 +76,12 @@ template <size_t Alignment>
 void* scoped_allocator::allocate(size_t num_bytes) {
   static_assert(is_power_of_2(Alignment));
 
-  auto free_space = base_allocator_.max_size() - base_allocator_.size();
+  auto free_space_start = base_allocator_.max_size() - base_allocator_.size();
+  auto free_space = free_space_start;
   auto result = base_allocator_.top();
   if (std::align(Alignment, num_bytes, result, free_space) != nullptr) {
     free_space -= num_bytes;
-    auto size = base_allocator_.max_size() - free_space;
+    auto size = free_space_start - free_space;
     size_ += size;
     base_allocator_.allocate(size);
     return result;
@@ -114,7 +115,7 @@ T* scoped_allocator::allocate(size_t n, Args&&... args) {
   dtor_invocation->invoker = [](void* data, size_t n) noexcept {
     auto iter =
         reinterpret_cast<T*>(static_cast<char*>(data) + allocation_offset);
-    destory(iter, iter+n);
+    destroy(iter, iter+n);
   };
   dtor_invocation->n = n;
   dtor_invocation->next = dtor_invocations_;
