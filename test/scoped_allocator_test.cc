@@ -71,7 +71,9 @@ TEST_CASE("scoped_allocator allocates memory that's freed when the scope exits."
       stackext::scoped_allocator allocator{base_allocator};
       allocator.allocate<NonTrivialClass3>(2, counter);
       allocator.allocate<NonTrivialClass3>(3, counter);
+      allocator.allocate<NonTrivialClass3>(10, counter);
+      allocator.allocate<NonTrivialClass3>(11, counter);
     }
-    REQUIRE(counter == 5);
+    REQUIRE(counter == 26);
   }
 }
