@@ -30,9 +30,10 @@ void destroy(T* /*iter*/, T* /*last*/) noexcept {
 
 template <class T, typename std::enable_if<
                        !std::is_trivially_destructible<T>::value, void*>::type = nullptr>
-void destroy(T* iter, T* last) noexcept {
-  for(; iter!=last; ++iter) {
-    iter->~T();
+void destroy(T* first, T* last) noexcept {
+  while (last != first) {
+    --last;
+    last->~T();
   }
 }
 
