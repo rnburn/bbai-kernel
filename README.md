@@ -5,6 +5,8 @@ alternative than the heap for allocating memory that doesn't need to persist bey
 1. Doesn't risk causing a stack overflow. If an allocation can't fit into the extended stack, it falls back to heap allocation.
 1. Works with classes that have non-trivial constructors and destructors.
 
+See also [How to make your C++ code faster with an extended stack](https://medium.com/@ryan.burn/how-to-make-your-c-code-faster-with-an-extended-stack-38b81c87f9d7).
+
 ## Installation
 
 ```
