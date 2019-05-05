@@ -99,23 +99,25 @@ T* scoped_allocator::allocate(size_t n, Args&&... args) {
   return result;
 }
 
-template <class T, class... Args, typename std::enable_if<
-                       !std::is_trivially_destructible<T>::value, void*>::type>
+template <class T, class... Args,
+          typename std::enable_if<!std::is_trivially_destructible<T>::value,
+                                  void*>::type>
 T* scoped_allocator::allocate(size_t n, Args&&... args) {
   static constexpr auto alignment = alignof(dtor_invocation) > alignof(T)
-                                   ? alignof(dtor_invocation)
-                                   : alignof(T);
-  static constexpr auto allocation_offset = 
-    align_up<alignment>(sizeof(dtor_invocation));
-  auto size = allocation_offset + sizeof(T)*n;
+                                        ? alignof(dtor_invocation)
+                                        : alignof(T);
+  static constexpr auto allocation_offset =
+      align_up<alignment>(sizeof(dtor_invocation));
+  auto size = allocation_offset + sizeof(T) * n;
   auto data = this->allocate<alignment>(size);
-  auto result = reinterpret_cast<T*>(static_cast<char*>(data) + allocation_offset);
+  auto result =
+      reinterpret_cast<T*>(static_cast<char*>(data) + allocation_offset);
   construct(result, result + n, std::forward<Args>(args)...);
   auto dtor_invocation = static_cast<scoped_allocator::dtor_invocation*>(data);
   dtor_invocation->invoker = [](void* data, size_t n) noexcept {
     auto iter =
         reinterpret_cast<T*>(static_cast<char*>(data) + allocation_offset);
-    destroy(iter, iter+n);
+    destroy(iter, iter + n);
   };
   dtor_invocation->n = n;
   dtor_invocation->next = dtor_invocations_;

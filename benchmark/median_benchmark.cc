@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
-#include <vector>
 #include <random>
+#include <vector>
 
 #include "stackext/scoped_allocator.h"
 
@@ -22,19 +22,21 @@ static std::vector<std::vector<employee>> make_random_workforces() {
   result.reserve(num_workforces);
   std::uniform_int_distribution<int> num_employees_distribution{1, 10};
   std::uniform_real_distribution<double> salary_distribution{0, 1000000};
-  for (int i=0; i<num_workforces; ++i) {
+  for (int i = 0; i < num_workforces; ++i) {
     auto num_employees = num_employees_distribution(random_number_generator);
     std::vector<employee> workforce;
     workforce.reserve(num_employees);
-    for (int j=0; j<num_employees; ++j) {
-      workforce.push_back(employee{salary_distribution(random_number_generator)});
+    for (int j = 0; j < num_employees; ++j) {
+      workforce.push_back(
+          employee{salary_distribution(random_number_generator)});
     }
     result.emplace_back(std::move(workforce));
   }
   return result;
 }
 
-static double compute_median_salary_heap(const std::vector<employee>& workforce) {
+static double compute_median_salary_heap(
+    const std::vector<employee>& workforce) {
   assert(!workforce.empty());
   std::vector<double> salaries;
   salaries.reserve(workforce.size());
@@ -49,7 +51,8 @@ static double compute_median_salary_heap(const std::vector<employee>& workforce)
   return (*std::max_element(salaries.begin(), midpoint) + *midpoint) / 2.0;
 }
 
-static double compute_median_salary_stackext(const std::vector<employee>& workforce) {
+static double compute_median_salary_stackext(
+    const std::vector<employee>& workforce) {
   assert(!workforce.empty());
   stackext::scoped_allocator allocator{StackExtension};
   auto salaries = allocator.allocate<double>(workforce.size());
