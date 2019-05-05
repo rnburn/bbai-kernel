@@ -4,9 +4,9 @@
 #include <cassert>
 
 namespace stackext {
-class linear_allocator {
+class stack_allocator {
  public:
-  explicit linear_allocator(size_t max_size)
+  explicit stack_allocator(size_t max_size)
     : data_{new char[max_size]},
       max_size_{max_size}
   {}

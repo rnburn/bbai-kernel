@@ -13,7 +13,7 @@ struct employee {
 };
 
 static thread_local auto StackExtension =
-    stackext::linear_allocator{1024 * 1024};
+    stackext::stack_allocator{1024 * 1024};
 
 static std::vector<std::vector<employee>> make_random_workforces() {
   std::mt19937 random_number_generator{0};

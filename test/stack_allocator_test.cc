@@ -1,9 +1,9 @@
-#include "stackext/linear_allocator.h"
+#include "stackext/stack_allocator.h"
 
 #include "3rd_party/catch2/catch.hpp"
 
-TEST_CASE("linear_allocator allocates memory in LIFO order.") {
-  stackext::linear_allocator allocator{100};
+TEST_CASE("stack_allocator allocates memory in LIFO order.") {
+  stackext::stack_allocator allocator{100};
 
   REQUIRE(allocator.max_size() == 100);
   REQUIRE(allocator.size() == 0);

@@ -4,9 +4,9 @@ load(
 )
 
 stackext_catch_test(
-    name = "linear_allocator_test",
+    name = "stack_allocator_test",
     srcs = [
-        "linear_allocator_test.cc",
+        "stack_allocator_test.cc",
     ],
     deps = [
         "//:stackext_lib",

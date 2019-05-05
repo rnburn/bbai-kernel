@@ -4,7 +4,7 @@
 
 TEST_CASE(
     "scoped_allocator allocates memory that's freed when the scope exits.") {
-  stackext::linear_allocator base_allocator{100};
+  stackext::stack_allocator base_allocator{100};
 
   SECTION("memory is freed upon scope exit.") {
     {

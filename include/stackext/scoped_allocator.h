@@ -4,7 +4,7 @@
 #include <memory>
 #include <type_traits>
 
-#include "stackext/linear_allocator.h"
+#include "stackext/stack_allocator.h"
 #include "stackext/utility.h"
 
 namespace stackext {
@@ -20,7 +20,7 @@ class scoped_allocator {
   };
 
  public:
-  explicit scoped_allocator(linear_allocator& base_allocator) noexcept
+  explicit scoped_allocator(stack_allocator& base_allocator) noexcept
       : base_allocator_{base_allocator} {}
 
   ~scoped_allocator() noexcept;
@@ -45,7 +45,7 @@ class scoped_allocator {
   T* allocate(size_t n, Args&&... args);
 
  private:
-  linear_allocator& base_allocator_;
+  stack_allocator& base_allocator_;
   size_t size_{0};
   heap_allocation* heap_allocations_{nullptr};
   dtor_invocation* dtor_invocations_{nullptr};
