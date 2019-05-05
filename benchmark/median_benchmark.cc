@@ -2,8 +2,11 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
+#include <random>
 
 #include "stackext/scoped_allocator.h"
+
+#include "benchmark/benchmark.h"
 
 struct employee {
   double salary;
@@ -12,7 +15,26 @@ struct employee {
 static thread_local auto StackExtension =
     stackext::linear_allocator{1024 * 1024};
 
-static double compute_median_salary1(const std::vector<employee>& workforce) {
+static std::vector<std::vector<employee>> make_random_workforces() {
+  std::mt19937 random_number_generator{0};
+  std::vector<std::vector<employee>> result;
+  const int num_workforces = 1000;
+  result.reserve(num_workforces);
+  std::uniform_int_distribution<int> num_employees_distribution{1, 10};
+  std::uniform_real_distribution<double> salary_distribution{0, 1000000};
+  for (int i=0; i<num_workforces; ++i) {
+    auto num_employees = num_employees_distribution(random_number_generator);
+    std::vector<employee> workforce;
+    workforce.reserve(num_employees);
+    for (int j=0; j<num_employees; ++j) {
+      workforce.push_back(employee{salary_distribution(random_number_generator)});
+    }
+    result.emplace_back(std::move(workforce));
+  }
+  return result;
+}
+
+static double compute_median_salary_heap(const std::vector<employee>& workforce) {
   assert(!workforce.empty());
   std::vector<double> salaries;
   salaries.reserve(workforce.size());
@@ -27,7 +49,7 @@ static double compute_median_salary1(const std::vector<employee>& workforce) {
   return (*std::max_element(salaries.begin(), midpoint) + *midpoint) / 2.0;
 }
 
-static double compute_median_salary2(const std::vector<employee>& workforce) {
+static double compute_median_salary_stackext(const std::vector<employee>& workforce) {
   assert(!workforce.empty());
   stackext::scoped_allocator allocator{StackExtension};
   auto salaries = allocator.allocate<double>(workforce.size());
@@ -41,19 +63,28 @@ static double compute_median_salary2(const std::vector<employee>& workforce) {
   return (*std::max_element(salaries, midpoint) + *midpoint) / 2.0;
 }
 
-int main() {
-  std::cout << compute_median_salary1({{50.0}}) << "\n";
-  std::cout << compute_median_salary1({{100.0}, {50.0}}) << "\n";
-  std::cout << compute_median_salary1({{100.0}, {25.0}, {50.0}}) << "\n";
-  std::cout << compute_median_salary1({{100.0}, {25.0}, {200.0}, {50.0}})
-            << "\n";
-
-  std::cout << "--------------\n";
-
-  std::cout << compute_median_salary2({{50.0}}) << "\n";
-  std::cout << compute_median_salary2({{100.0}, {50.0}}) << "\n";
-  std::cout << compute_median_salary2({{100.0}, {25.0}, {50.0}}) << "\n";
-  std::cout << compute_median_salary2({{100.0}, {25.0}, {200.0}, {50.0}})
-            << "\n";
-  return 0;
+static void BM_compute_median_salary_heap(benchmark::State& state) {
+  auto workforces = make_random_workforces();
+  for (auto _ : state) {
+    for (auto& workforce : workforces) {
+      auto median_salary = compute_median_salary_heap(workforce);
+      benchmark::DoNotOptimize(median_salary);
+    }
+  }
 }
+
+BENCHMARK(BM_compute_median_salary_heap);
+
+static void BM_compute_median_salary_stackext(benchmark::State& state) {
+  auto workforces = make_random_workforces();
+  for (auto _ : state) {
+    for (auto& workforce : workforces) {
+      auto median_salary = compute_median_salary_stackext(workforce);
+      benchmark::DoNotOptimize(median_salary);
+    }
+  }
+}
+
+BENCHMARK(BM_compute_median_salary_stackext);
+
+BENCHMARK_MAIN();
