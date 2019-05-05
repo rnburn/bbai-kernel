@@ -12,7 +12,7 @@ static void example1(int n) {
   stackext::scoped_allocator allocator{ExtendedStack};
 
   // allocate a dynamic number of characters
-  // memory for s will be freed automatically allocator's destructor is called
+  // memory for s will be freed automatically when allocator's destructor is called
   auto s = allocator.allocate<char>(n);
   (void)s;
 
