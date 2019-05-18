@@ -1,8 +1,10 @@
 #include "stackext/scoped_allocator.h"
+#include "stackext/linear_allocator.h"
 
 #include <iostream>
+#include <vector>
 
-// Set aside 1KB of extended stack space.
+// Set aside 1KB of extended stack space per thread.
 static thread_local stackext::stack_allocator ExtendedStack{1024};
 
 static void example2();
@@ -33,6 +35,12 @@ static void example1(int n) {
 
   // we can nest usages of scoped_allocator
   example2();
+
+  // with linear_allocator, we can use scoped_allocator with standard C++ containers
+  std::vector<int, stackext::linear_allocator<int>> v(stackext::linear_allocator<int>{allocator});
+  v.push_back(1);
+  v.push_back(2);
+  v.push_back(3);
 }
 
 static void example2() {

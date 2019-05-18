@@ -24,6 +24,16 @@ stackext_catch_test(
 )
 
 stackext_catch_test(
+    name = "linear_allocator_test",
+    srcs = [
+        "linear_allocator_test.cc",
+    ],
+    deps = [
+        "//:stackext_lib",
+    ],
+)
+
+stackext_catch_test(
     name = "utility_test",
     srcs = [
         "utility_test.cc",
