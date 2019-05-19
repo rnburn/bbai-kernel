@@ -1,5 +1,6 @@
 // Benchmarks stackext for a function that uses std::map to aggregate film sales
 // and return the film with the highest gross.
+
 #include <algorithm>
 #include <cassert>
 #include <iostream>
