@@ -1,3 +1,5 @@
+// Benchmarks stackext for a function that computes the median salary from a
+// std::vector of employees.
 #include <algorithm>
 #include <cassert>
 #include <iostream>

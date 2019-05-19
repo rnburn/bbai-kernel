@@ -5,6 +5,8 @@
 namespace stackext {
 template <class T>
 class linear_allocator {
+  template <class U>
+  friend class linear_allocator;
  public:
    using value_type = T;
 
