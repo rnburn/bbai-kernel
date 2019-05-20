@@ -6,7 +6,7 @@ alternative than the heap for allocating memory that doesn't need to persist bey
 1. Works with classes that have non-trivial constructors and destructors.
 
 See [How to make your C++ code faster with an extended stack](https://medium.com/@ryan.burn/how-to-make-your-c-code-faster-with-an-extended-stack-38b81c87f9d7) and
-[benchmarks](benchamrk/README.md) for example usages.
+[benchmarks](benchmark/README.md) for example usages.
 
 ## Installation
 

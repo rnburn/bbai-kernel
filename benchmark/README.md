@@ -23,7 +23,8 @@ BM_compute_median_salary_stackext      56765 ns      56594 ns      11386
 
 # Top Film
 [top_film_benchmark.cc](top_film_benchmark.cc) aggregates film sales using an std::map and returns the highest grossing film.
-The benchmark compares the performance of using an std::map that allocates from the heap vs an std::map that allocates from extended stack space. The results I get are
+The benchmark compares the performance of using an std::map that allocates from the heap vs an std::map that allocates from
+extended stack space for some random small data set. The results I get are
 
 ```
 Run on (12 X 2600 MHz CPU s)
