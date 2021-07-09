@@ -1,9 +1,12 @@
-FROM ubuntu:18.04
+FROM rnburn/gcc-clang-build:0.4
 
-WORKDIR /3rd_party
+WORKDIR /third_party
 
-ADD setup_build_environment.sh /3rd_party
-ADD install_bazel.sh /3rd_party
+ADD setup_build_environment.sh /third_party
+ADD install_bazel.sh /third_party
+ADD latest-glibc.conf /etc/ld.so.conf.d
 
-RUN /3rd_party/setup_build_environment.sh \
- && /3rd_party/install_bazel.sh
+RUN /third_party/setup_build_environment.sh \
+ && /third_party/install_bazel.sh
+
+EXPOSE 8888

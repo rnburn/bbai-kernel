@@ -2,14 +2,7 @@
 
 set -e
 
-[ -z "${BAZEL_VERSION}" ] && export BAZEL_VERSION="0.24.0"
+BAZELISK_VERSION=v1.1.0
 
-apt-get update 
-apt-get install --no-install-recommends --no-install-suggests -y \
-         wget \
-         unzip \
-         ca-certificates \
-         openjdk-8-jdk
-wget https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh
-chmod +x bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh
-./bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh
+wget -O /usr/local/bin/bazel https://github.com/bazelbuild/bazelisk/releases/download/$BAZELISK_VERSION/bazelisk-linux-amd64
+chmod +x /usr/local/bin/bazel

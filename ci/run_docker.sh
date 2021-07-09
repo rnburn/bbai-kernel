@@ -2,7 +2,7 @@
 
 set -e
 
-BUILD_IMAGE=stackext-build
+BUILD_IMAGE=bbaim
 docker image inspect "$BUILD_IMAGE" &> /dev/null || {
   docker build -t "$BUILD_IMAGE" ci
 }
