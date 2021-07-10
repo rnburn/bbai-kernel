@@ -3,7 +3,9 @@ on: [push]
 
 jobs:
   build-and-test:
-    runs-on: rnburn/gcc-clang-build:0.4
+    runs:
+      using: 'docker'
+      image: rnburn/gcc-clang-build:0.4
     steps:
       - name: setup build environment
         run: /third_party/setup_build_environment.sh
