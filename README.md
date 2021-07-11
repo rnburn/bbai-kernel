@@ -1,4 +1,6 @@
-# stackext
+# bbai-mem
+
+![](https://github.com/rnburn/bbai-mem/workflows/pr-build-test/badge.svg)
 
 Small, header-only library for working with an extended stack. Like [alloca](http://man7.org/linux/man-pages/man3/alloca.3.html), stackext provides a much faster
 alternative than the heap for allocating memory that doesn't need to persist beyond a function's scope. But, unlike alloca, stackext 
