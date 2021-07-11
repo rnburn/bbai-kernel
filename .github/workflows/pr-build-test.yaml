@@ -11,6 +11,6 @@ jobs:
       - name: setup build environment
         run: ./ci/setup_build_environment.sh
       - name: install bazelisk
-        run: ./ci/setup_build_environment.sh
+        run: ./ci/install_bazel.sh
       - name: Build
         run: bazel build //...
