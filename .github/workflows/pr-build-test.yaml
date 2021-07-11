@@ -10,6 +10,10 @@ jobs:
         uses: actions/checkout@v2
       - name: setup build environment
         run: ./ci/setup_build_environment.sh
+      - name: setup linker
+        run: |
+          cp ./ci/latest-glibc.conf /etc/ld.so.conf.d
+          ldconfig
       - name: install bazelisk
         run: ./ci/install_bazel.sh
       - name: Build
