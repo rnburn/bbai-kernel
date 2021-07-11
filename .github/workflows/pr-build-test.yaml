@@ -6,13 +6,11 @@ jobs:
     runs-on: ubuntu-20.04
     container: rnburn/gcc-clang-build:0.4
     steps:
-      - name: setup build environment
-        run: /third_party/setup_build_environment.sh
-      - name: install bazelisk
-        run: /third_party/setup_build_environment.sh
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
+      - name: setup build environment
+        run: ./ci/setup_build_environment.sh
+      - name: install bazelisk
+        run: ./ci/setup_build_environment.sh
       - name: Build
         run: bazel build //...
