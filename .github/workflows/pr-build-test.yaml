@@ -4,7 +4,7 @@ on: [push]
 jobs:
   build-and-test:
     runs-on: ubuntu:18.04
-    continer: rnburn/gcc-clang-build:0.4
+    container: rnburn/gcc-clang-build:0.4
     steps:
       - name: setup build environment
         run: /third_party/setup_build_environment.sh
