@@ -49,7 +49,7 @@ int main() {
 
   ptr1 = std::move(ptr2); 
     // because the two pointers have unequal allocators, the assignment will
-    // reallocate and moveconstruct a B type into the buffer
+    // reallocate memory and move construct an instance of B into buffer
 
   std::cout << (reinterpret_cast<char*>(ptr1.get()) == buffer.data()) << "\n"; 
     // prints 1
