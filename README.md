@@ -43,14 +43,16 @@ int main() {
     // we configure ptr1 to allocate into buffer
 
   std::pmr::polymorphic_allocator<> alloc;
-  bbai::memmg::managed_ptr<A> ptr2 = bbai::memmg::allocate_managed<B>(alloc, 123);
+  bbai::memmg::managed_ptr<A> ptr2 = 
+            bbai::memmg::allocate_managed<B>(alloc, 123);
     // ptr2 manages memory from the heap
 
   ptr1 = std::move(ptr2); 
     // because the two pointers have unequal allocators, the assignment will
     // reallocate and moveconstruct a B type into the buffer
 
-  std::cout << (reinterpret_cast<char*>(ptr1.get()) == buffer.data()) << "\n"; // prints 1
+  std::cout << (reinterpret_cast<char*>(ptr1.get()) == buffer.data()) << "\n"; 
+    // prints 1
   std::cout << ptr1->f() << std::endl; // prints 123
 
   return 0;
