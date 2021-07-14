@@ -4,7 +4,7 @@
 
 bbai-mem extends C++17 polymorphic allocators with
 * An allocator aware smart pointer
-* A resource for managing extended stack space
+* A resource for allocating from extended stack space
 
 ## Documentaation
 * [How to Build an Allocator-aware Smart Pointer](https://buildingblock.ai/allocator-aware-smart-ptr)
