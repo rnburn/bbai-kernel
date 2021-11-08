@@ -15,7 +15,7 @@ class flight_descriptor1 {
   // constructor
   flight_descriptor1() noexcept = default;
 
-  flight_descriptor1(allocator_type alloc) noexcept;
+  explicit flight_descriptor1(allocator_type alloc) noexcept;
 
   flight_descriptor1(std::pmr::string&& origin, std::pmr::string&& destination,
                      allocator_type alloc = {});

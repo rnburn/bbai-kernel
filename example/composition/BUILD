@@ -15,3 +15,13 @@ bbai_cc_component(
         ":flight_descriptor1",
     ],
 )
+
+cc_test(
+    name = "main1",
+    srcs = [
+        "main1.cc",
+    ],
+    deps = [
+        ":trip_descriptor1",
+    ],
+)
