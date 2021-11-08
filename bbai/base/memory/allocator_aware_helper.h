@@ -32,7 +32,8 @@ T make_allocator_aware_default_initializer(std::pmr::polymorphic_allocator<> all
 //--------------------------------------------------------------------------------------------------
 namespace detail {
 template <class T>
-T make_allocator_aware_copy_constructor_initializer(const T& other, std::pmr::polymorphic_allocator<> alloc) noexcept {
+T make_allocator_aware_copy_constructor_initializer(
+    const T &other, std::pmr::polymorphic_allocator<> alloc) noexcept {
   if constexpr (basc::allocator_aware<T>) {
     return T{other, alloc};
   } else {
@@ -46,7 +47,8 @@ T make_allocator_aware_copy_constructor_initializer(const T& other, std::pmr::po
 //--------------------------------------------------------------------------------------------------
 namespace detail {
 template <class T>
-T make_allocator_aware_move_constructor_initializer(T& other, std::pmr::polymorphic_allocator<> alloc) noexcept {
+T make_allocator_aware_move_constructor_initializer(
+    T &other, std::pmr::polymorphic_allocator<> alloc) noexcept {
   if constexpr (basc::allocator_aware<T>) {
     return T{std::move(other), alloc};
   } else {
@@ -102,6 +104,11 @@ class allocator_aware_impl<Data, std::index_sequence<Indexes...>> : protected Da
                         allocator_type alloc) noexcept
        : Data{make_allocator_aware_move_constructor_initializer(
              basrf::tuple_convertible_get<Indexes>(static_cast<Data &>(other)),
+             alloc)...} {}
+
+   allocator_aware_impl(Data&& data, allocator_type alloc) noexcept
+       : Data{make_allocator_aware_move_constructor_initializer(
+             basrf::tuple_convertible_get<Indexes>(data),
              alloc)...} {}
 
    allocator_aware_impl &operator=(const allocator_aware_impl &rhs) noexcept
