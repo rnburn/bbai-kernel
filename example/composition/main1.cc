@@ -26,14 +26,22 @@ int main() {
     return -1;
   }
   auto& flight = trip_p.legs()[0];
-  std::cout << flight.origin() << ": "
-            << (reinterpret_cast<const std::byte*>(flight.origin().data()) -
-                buffer.data())
-            << "\n";
-  std::cout << flight.destination() << ": "
-            << (reinterpret_cast<const std::byte*>(
-                    flight.destination().data()) -
-                buffer.data())
-            << "\n";
+
+  auto origin = flight.origin();
+  auto origin_offset = reinterpret_cast<const std::byte*>(origin.data()) - buffer.data();
+  std::cout << origin << "\t" << origin_offset << "\n";
+  if (origin_offset < 0 || origin_offset >= std::ssize(buffer)) {
+    std::cerr << "offset wrong\n";
+    return -1;
+  }
+
+  auto destination = flight.destination();
+  auto destination_offset = reinterpret_cast<const std::byte*>(destination.data()) - buffer.data();
+  std::cout << destination << "\t" << destination_offset << "\n";
+  if (destination_offset < 0 || destination_offset >= std::ssize(buffer)) {
+    std::cerr << "offset wrong\n";
+    return -1;
+  }
+
   return 0;
 }
