@@ -25,3 +25,30 @@ cc_test(
         ":trip_descriptor1",
     ],
 )
+
+bbai_cc_component(
+    name = "flight_descriptor2",
+    with_test = False,
+    deps = [
+        "//bbai/base/memory:allocator_aware_helper",
+    ],
+)
+
+bbai_cc_component(
+    name = "trip_descriptor2",
+    with_test = False,
+    deps = [
+        ":flight_descriptor2",
+        "//bbai/base/memory:allocator_aware_helper",
+    ],
+)
+
+cc_test(
+    name = "main2",
+    srcs = [
+        "main2.cc",
+    ],
+    deps = [
+        ":trip_descriptor2",
+    ],
+)

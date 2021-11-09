@@ -106,10 +106,10 @@ class allocator_aware_impl<Data, std::index_sequence<Indexes...>> : protected Da
              basrf::tuple_convertible_get<Indexes>(static_cast<Data &>(other)),
              alloc)...} {}
 
-   allocator_aware_impl(Data&& data, allocator_type alloc) noexcept
+   explicit allocator_aware_impl(Data &&data,
+                                 allocator_type alloc = {}) noexcept
        : Data{make_allocator_aware_move_constructor_initializer(
-             basrf::tuple_convertible_get<Indexes>(data),
-             alloc)...} {}
+             basrf::tuple_convertible_get<Indexes>(data), alloc)...} {}
 
    allocator_aware_impl &operator=(const allocator_aware_impl &rhs) noexcept
        requires std::copy_constructible<Data>
