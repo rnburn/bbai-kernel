@@ -9,6 +9,7 @@ bbai-mem extends C++17 polymorphic allocators with
 ## Documentaation
 * [How to Build an Allocator-aware Smart Pointer](https://buildingblock.ai/allocator-aware-smart-ptr)
 * [How to Make Your C++ Code Faster With Extended Stack Space](https://buildingblock.ai/extended-stack)
+* [How to Compose Allocator-aware Types](https://buildingblock.ai/allocator-aware-composition)
 
 ## Quick start
 
