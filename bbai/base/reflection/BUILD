@@ -37,3 +37,10 @@ bbai_cc_component(
         "//bbai/base/type:uncvref",
     ],
 )
+
+bbai_cc_component(
+    name = "member",
+    deps = [
+        "//bbai/base/type:fixed_string",
+    ],
+)
