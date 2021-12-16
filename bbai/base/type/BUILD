@@ -8,3 +8,6 @@ bbai_cc_component(
     with_test = False,
 )
 
+bbai_cc_component(
+    name = "fixed_string",
+)
