@@ -46,14 +46,31 @@ constexpr size_t num_members_v =
 //--------------------------------------------------------------------------------------------------
 template <class T, size_t I>
 constexpr auto member_name_v = T::template bbai_detail_member_reflection<
-    I, struct bbai_detail_member_name_tag>::name;
+    I, struct bbai_detail_member_tag>::name;
 
 //--------------------------------------------------------------------------------------------------
 // member_type_t
 //--------------------------------------------------------------------------------------------------
 template <class T, size_t I>
 using member_type_t = typename T::template bbai_detail_member_reflection<
-    I, struct bbai_detail_member_type_tag>::type;
+    I, struct bbai_detail_member_tag>::type;
+
+//--------------------------------------------------------------------------------------------------
+// member_get
+//--------------------------------------------------------------------------------------------------
+template <size_t I, class T>
+auto& member_get(T& a) noexcept {
+  constexpr auto ptr = T::template bbai_detail_member_reflection<
+      I, struct bbai_detail_member_tag>::template offset_v<T>;
+  return a.*ptr;
+}
+
+template <size_t I, class T>
+const auto& member_get(const T& a) noexcept {
+  constexpr auto ptr = T::template bbai_detail_member_reflection<
+      I, struct bbai_detail_member_tag>::template offset_v<T>;
+  return a.*ptr;
+}
 
 //--------------------------------------------------------------------------------------------------
 // BBAI_REFLECT_MEMBER
@@ -68,5 +85,6 @@ using member_type_t = typename T::template bbai_detail_member_reflection<
   struct bbai_detail_member_reflection<bbai_detail_##NAME##_member_index, T> { \
     static constexpr bast::fixed_string name = #NAME;                          \
     using type = __VA_ARGS__;                                                  \
+    template <class U> static constexpr type U::*offset_v = &U::NAME;          \
   };
 } // namespace bbai::basrf

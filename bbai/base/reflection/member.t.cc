@@ -22,4 +22,10 @@ TEST_CASE("we can reflect the members of a class") {
 
   using t1 = member_type_t<my_class, 1>;
   REQUIRE(std::is_same_v<t1, std::tuple<char, float>>);
+
+  my_class c;
+  c.x = 123;
+  REQUIRE(member_get<0>(c) == 123);
+  member_get<0>(c) = 456;
+  REQUIRE(member_get<0>(c) == 456);
 }
