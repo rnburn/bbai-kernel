@@ -38,7 +38,7 @@ struct member_index {
 //--------------------------------------------------------------------------------------------------
 template <class T>
 constexpr size_t num_members_v =
-    detail::member_index<struct bbai_detail_num_member_tag,
+    detail::member_index<struct bbai_detail_member_tag,
                          T::template bbai_detail_member_reflection>::value;
 
 //--------------------------------------------------------------------------------------------------
@@ -77,14 +77,16 @@ const auto& member_get(const T& a) noexcept {
 //--------------------------------------------------------------------------------------------------
 #define BBAI_REFLECT_MEMBER(NAME, ...)                                         \
   __VA_ARGS__ NAME;                                                            \
-  template <size_t, class> struct bbai_detail_member_reflection;               \
+  template <size_t, class>                                                     \
+  struct bbai_detail_member_reflection;                                        \
   static constexpr size_t bbai_detail_##NAME##_member_index =                  \
-      detail::member_index<struct bbai_detail_##NAME##_tag,                    \
-                           bbai_detail_member_reflection>::value;              \
+      bbai::basrf::detail::member_index<struct bbai_detail_##NAME##_tag,       \
+                                        bbai_detail_member_reflection>::value; \
   template <class T>                                                           \
   struct bbai_detail_member_reflection<bbai_detail_##NAME##_member_index, T> { \
     static constexpr bast::fixed_string name = #NAME;                          \
     using type = __VA_ARGS__;                                                  \
-    template <class U> static constexpr type U::*offset_v = &U::NAME;          \
+    template <class U>                                                         \
+    static constexpr type U::*offset_v = &U::NAME;                             \
   };
 } // namespace bbai::basrf

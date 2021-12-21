@@ -2,7 +2,7 @@
 
 set -e
 
-BUILD_IMAGE=bbaim
+BUILD_IMAGE=bbai-lib
 docker image inspect "$BUILD_IMAGE" &> /dev/null || {
   docker build -t "$BUILD_IMAGE" ci
 }
