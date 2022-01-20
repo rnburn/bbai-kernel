@@ -4,7 +4,7 @@
 
 bbai-lib is a modern C++ library with components for reflection and building allocator aware types.
 
-## Documentaation
+## Documentation
 * [How to Implement Reflection With an Inline Macro](https://buildingblock.ai/reflection)
 * [How to Build an Allocator-aware Smart Pointer](https://buildingblock.ai/allocator-aware-smart-ptr)
 * [How to Make Your C++ Code Faster With Extended Stack Space](https://buildingblock.ai/extended-stack)
