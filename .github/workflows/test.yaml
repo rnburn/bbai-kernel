@@ -1,19 +1,19 @@
-name: pr-build-test
+name: CI
+
 on: [push]
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-20.04
+    runs-on: gcc:13
+    steps:
+    - uses: actions/checkout@v2
+
     container: rnburn/gcc-clang-build:0.4
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: setup build environment
         run: ./ci/setup_build_environment.sh
-      - name: setup linker
-        run: |
-          cp ./ci/latest-glibc.conf /etc/ld.so.conf.d
-          ldconfig
       - name: install bazelisk
         run: ./ci/install_bazel.sh
       - name: Build
