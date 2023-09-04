@@ -6,17 +6,13 @@ jobs:
   build-and-test:
     runs-on: gcc:13
     steps:
-    - uses: actions/checkout@v2
-
-    container: rnburn/gcc-clang-build:0.4
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: setup build environment
-        run: ./ci/setup_build_environment.sh
-      - name: install bazelisk
-        run: ./ci/install_bazel.sh
-      - name: Build
-        run: bazel build --config=asan //...
-      - name: Test
-        run: bazel test --config=asan --test_output=errors //...
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: setup build environment
+      run: ./ci/setup_build_environment.sh
+    - name: install bazelisk
+      run: ./ci/install_bazel.sh
+    - name: Build
+      run: bazel build --config=asan //...
+    - name: Test
+      run: bazel test --config=asan --test_output=errors //...
