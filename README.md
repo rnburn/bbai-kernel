@@ -1,8 +1,11 @@
-# bbai-mem
+# bbai-kernel
 
 ![](https://github.com/rnburn/bbai-mem/workflows/pr-build-test/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-bbai-lib is a modern C++ library with components for reflection and building allocator aware types.
+bbai-kernel is a modern C++ library with components for reflection and building allocator aware types.
+
+It is a small piece of the project [bbai](https://github.com/rnburn/bbai) that provides algorithms
+for deterministic objective Bayesian analysis.
 
 ## Documentation
 * [How to Implement Reflection With an Inline Macro](https://buildingblock.ai/reflection)
