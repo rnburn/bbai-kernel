@@ -1,4 +1,6 @@
-common --cxxopt=-std=c++2a
+common --cxxopt=-std=c++20
 
 build:asan --copt -fsanitize=address
 build:asan --linkopt -fsanitize=address
+build:clang_config --copt -Wno-tautological-pointer-compare
+build:clang_config --copt -Wno-braced-scalar-init

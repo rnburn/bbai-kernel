@@ -37,7 +37,7 @@ static void BM_parse_sum_json_managed_stackext_wink(benchmark::State& state) {
   // Perform setup here
   for (auto _ : state) {
     memr::stackext_resource resource;
-    std::pmr::polymorphic_allocator alloc{&resource};
+    std::pmr::polymorphic_allocator<> alloc{&resource};
     auto json = alloc.new_object<memmg::managed_ptr<json_value>>();
     parse_json(*json, s1);
     auto sum = sum1(json->get());

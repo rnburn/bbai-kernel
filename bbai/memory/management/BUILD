@@ -20,6 +20,7 @@ bbai_cc_component(
 
 bbai_cc_component(
     name = "pointer_operator",
+    with_test = False,
     deps = [
         ":pointer_operator_function",
     ],
