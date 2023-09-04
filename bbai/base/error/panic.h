@@ -13,7 +13,7 @@ namespace bbai::baser {
 struct panic_dynamic_string_view {
   template <class T>
     requires std::constructible_from<std::string_view, T>
-  consteval panic_dynamic_string_view(
+  panic_dynamic_string_view(
       const T &s,
       std::source_location loc = std::source_location::current()) noexcept
       : s{s}, loc{loc} {}
@@ -40,7 +40,7 @@ struct panic_format {
 //--------------------------------------------------------------------------------------------------
 // panic_impl
 //--------------------------------------------------------------------------------------------------
-[[noreturn]] void panic_impl(std::string_view msg) noexcept;
+[[noreturn]] void panic_impl(const char* s) noexcept;
 
 //--------------------------------------------------------------------------------------------------
 // panic
